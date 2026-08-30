@@ -9,12 +9,20 @@ def load_xray(image_path):
 
 
 def extract_patch(image, x, y, width, height):
-    patch = image[
+    return image[
         y:y + height,
         x:x + width
     ]
 
-    return patch
+
+def create_edge_kernel():
+    kernel = np.array([
+        [-1, -1, -1],
+        [-1,  8, -1],
+        [-1, -1, -1]
+    ], dtype=float)
+
+    return kernel
 
 
 if __name__ == "__main__":
@@ -23,11 +31,6 @@ if __name__ == "__main__":
 
     image = load_xray(image_path)
 
-    print("Original X-ray dimensions:")
-    print(image.shape)
-
-    # Temporary coordinates.
-    # We will change these after checking your X-ray.
     x = 100
     y = 100
 
@@ -39,14 +42,19 @@ if __name__ == "__main__":
         15
     )
 
-    print("\nSelected patch dimensions:")
+    print("Patch dimensions:")
     print(patch.shape)
 
-    print("\nSelected patch pixel values:")
+    print("\nPixel matrix:")
     print(patch)
+
+    kernel = create_edge_kernel()
+
+    print("\nEdge Detection Kernel:")
+    print(kernel)
 
     plt.figure(figsize=(6, 6))
     plt.imshow(patch, cmap="gray")
-    plt.title("Selected 15 x 15 X-ray Patch")
+    plt.title("Selected X-ray Patch")
     plt.axis("off")
     plt.show()
