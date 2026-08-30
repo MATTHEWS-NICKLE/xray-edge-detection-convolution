@@ -16,13 +16,47 @@ def extract_patch(image, x, y, width, height):
 
 
 def create_edge_kernel():
-    kernel = np.array([
+    return np.array([
         [-1, -1, -1],
         [-1,  8, -1],
         [-1, -1, -1]
     ], dtype=float)
 
-    return kernel
+
+def apply_convolution(image, kernel):
+
+    image_height, image_width = image.shape
+
+    kernel_height, kernel_width = kernel.shape
+
+    output_height = (
+        image_height - kernel_height + 1
+    )
+
+    output_width = (
+        image_width - kernel_width + 1
+    )
+
+    output = np.zeros(
+        (output_height, output_width)
+    )
+
+    for i in range(output_height):
+
+        for j in range(output_width):
+
+            region = image[
+                i:i + kernel_height,
+                j:j + kernel_width
+            ]
+
+            response = np.sum(
+                region * kernel
+            )
+
+            output[i, j] = response
+
+    return output
 
 
 if __name__ == "__main__":
@@ -42,19 +76,21 @@ if __name__ == "__main__":
         15
     )
 
-    print("Patch dimensions:")
-    print(patch.shape)
-
-    print("\nPixel matrix:")
-    print(patch)
-
     kernel = create_edge_kernel()
 
-    print("\nEdge Detection Kernel:")
-    print(kernel)
+    response = apply_convolution(
+        patch,
+        kernel
+    )
 
-    plt.figure(figsize=(6, 6))
-    plt.imshow(patch, cmap="gray")
-    plt.title("Selected X-ray Patch")
-    plt.axis("off")
-    plt.show()
+    print("Input patch dimensions:")
+    print(patch.shape)
+
+    print("\nKernel dimensions:")
+    print(kernel.shape)
+
+    print("\nResponse dimensions:")
+    print(response.shape)
+
+    print("\nConvolution Response Matrix:")
+    print(response)
