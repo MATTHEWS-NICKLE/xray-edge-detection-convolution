@@ -8,18 +8,45 @@ def load_xray(image_path):
     return np.array(image, dtype=float)
 
 
+def extract_patch(image, x, y, width, height):
+    patch = image[
+        y:y + height,
+        x:x + width
+    ]
+
+    return patch
+
+
 if __name__ == "__main__":
 
-    image_path = "dataset/xray_patch.png"
+    image_path = "dataset/xray_original.png"
 
     image = load_xray(image_path)
 
-    print("X-ray loaded successfully.")
-    print("Image dimensions:", image.shape)
-    print("Minimum pixel value:", image.min())
-    print("Maximum pixel value:", image.max())
+    print("Original X-ray dimensions:")
+    print(image.shape)
 
-    plt.imshow(image, cmap="gray")
-    plt.title("Original X-ray")
+    # Temporary coordinates.
+    # We will change these after checking your X-ray.
+    x = 100
+    y = 100
+
+    patch = extract_patch(
+        image,
+        x,
+        y,
+        15,
+        15
+    )
+
+    print("\nSelected patch dimensions:")
+    print(patch.shape)
+
+    print("\nSelected patch pixel values:")
+    print(patch)
+
+    plt.figure(figsize=(6, 6))
+    plt.imshow(patch, cmap="gray")
+    plt.title("Selected 15 x 15 X-ray Patch")
     plt.axis("off")
     plt.show()
