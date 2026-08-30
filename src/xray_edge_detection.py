@@ -123,6 +123,33 @@ def visualize_response(magnitude):
     )
 
     plt.show()
+def visualize_emphasized_edges(
+    magnitude,
+    threshold
+):
+
+    edge_map = magnitude >= threshold
+
+    plt.figure(figsize=(7, 7))
+
+    plt.imshow(
+        edge_map,
+        cmap="gray"
+    )
+
+    plt.title(
+        "Emphasized Bone Boundary Locations"
+    )
+
+    plt.xlabel("Column")
+    plt.ylabel("Row")
+
+    plt.savefig(
+        "results/emphasized_edges.png",
+        bbox_inches="tight"
+    )
+
+    plt.show()
 if __name__ == "__main__":
 
     image_path = "dataset/xray_original.png"
@@ -164,3 +191,7 @@ if __name__ == "__main__":
         find_emphasized_locations(response)
     )
     visualize_response(magnitude)
+    visualize_emphasized_edges(
+        magnitude,
+        threshold
+    )
