@@ -97,6 +97,32 @@ def find_emphasized_locations(response):
         )
 
     return magnitude, threshold
+def visualize_response(magnitude):
+
+    plt.figure(figsize=(7, 7))
+
+    plt.imshow(
+        magnitude,
+        cmap="gray"
+    )
+
+    plt.colorbar(
+        label="Response Magnitude"
+    )
+
+    plt.title(
+        "X-ray Convolution Edge Response"
+    )
+
+    plt.xlabel("Column")
+    plt.ylabel("Row")
+
+    plt.savefig(
+        "results/edge_response.png",
+        bbox_inches="tight"
+    )
+
+    plt.show()
 if __name__ == "__main__":
 
     image_path = "dataset/xray_original.png"
@@ -137,3 +163,4 @@ if __name__ == "__main__":
     magnitude, threshold = (
         find_emphasized_locations(response)
     )
+    visualize_response(magnitude)
