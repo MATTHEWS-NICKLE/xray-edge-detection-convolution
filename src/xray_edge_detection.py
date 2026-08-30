@@ -57,7 +57,19 @@ def apply_convolution(image, kernel):
             output[i, j] = response
 
     return output
+def save_response_matrix(response):
 
+    np.savetxt(
+        "results/response_matrix.csv",
+        response,
+        delimiter=",",
+        fmt="%.2f"
+    )
+
+    print(
+        "\nResponse matrix saved to "
+        "results/response_matrix.csv"
+    )
 
 if __name__ == "__main__":
 
@@ -94,3 +106,4 @@ if __name__ == "__main__":
 
     print("\nConvolution Response Matrix:")
     print(response)
+    save_response_matrix(response)
