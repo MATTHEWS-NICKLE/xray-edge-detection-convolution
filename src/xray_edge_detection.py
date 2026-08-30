@@ -70,7 +70,33 @@ def save_response_matrix(response):
         "\nResponse matrix saved to "
         "results/response_matrix.csv"
     )
+def find_emphasized_locations(response):
 
+    magnitude = np.abs(response)
+
+    threshold = (
+        np.mean(magnitude)
+        + np.std(magnitude)
+    )
+
+    locations = np.argwhere(
+        magnitude >= threshold
+    )
+
+    print("\nEdge Response Threshold:")
+    print(threshold)
+
+    print("\nEmphasized Locations:")
+
+    for row, column in locations:
+
+        print(
+            f"Location ({row}, {column}) "
+            f"Response = "
+            f"{response[row, column]:.2f}"
+        )
+
+    return magnitude, threshold
 if __name__ == "__main__":
 
     image_path = "dataset/xray_original.png"
@@ -107,3 +133,7 @@ if __name__ == "__main__":
     print("\nConvolution Response Matrix:")
     print(response)
     save_response_matrix(response)
+
+    magnitude, threshold = (
+        find_emphasized_locations(response)
+    )
